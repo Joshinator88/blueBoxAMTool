@@ -47,10 +47,10 @@ class User extends Authenticatable
 
     public function gender() 
     {
-        return $this->hasOne(Gender::class);
+        return $this->belongsTo(Gender::class);
     }
     public function role()
     {
-        return $this->haOne(Role::class);
+        return $this->belongsTo(Role::class);
     }
 }
