@@ -23,5 +23,29 @@ class UserSeeder extends Seeder
             'email' => 'admin@mail.com',
             'password' => '123'
         ]);
+        User::Factory()->create([
+            'name' => "sales",
+            'last_name' => 'sales',
+            'gender_id' => 1,
+            'role_id' => 2,
+            'email' => 'sales@mail.com',
+            'password' => '123'
+        ]);
+        User::Factory()->create([
+            'name' => "management",
+            'last_name' => 'management',
+            'gender_id' => 1,
+            'role_id' => 3,
+            'email' => 'management@mail.com',
+            'password' => '123'
+        ]);
+        User::Factory()->create([
+            'name' => "user",
+            'last_name' => 'user',
+            'gender_id' => 1,
+            'role_id' => 4,
+            'email' => 'user@mail.com',
+            'password' => '123'
+        ]);
     }
 }
