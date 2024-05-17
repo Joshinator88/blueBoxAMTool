@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Faker\Guesser\Name;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -21,7 +22,7 @@ class UserSeeder extends Seeder
             'gender_id' => 1,
             'role_id' => 1,
             'email' => 'admin@mail.com',
-            'password' => '123'
+            'password' => Hash::make('123')
         ]);
         User::Factory()->create([
             'name' => "sales",
@@ -29,7 +30,7 @@ class UserSeeder extends Seeder
             'gender_id' => 1,
             'role_id' => 2,
             'email' => 'sales@mail.com',
-            'password' => '123'
+            'password' => Hash::make('123')
         ]);
         User::Factory()->create([
             'name' => "management",
@@ -37,7 +38,7 @@ class UserSeeder extends Seeder
             'gender_id' => 1,
             'role_id' => 3,
             'email' => 'management@mail.com',
-            'password' => '123'
+            'password' => Hash::make('123')
         ]);
         User::Factory()->create([
             'name' => "user",
@@ -45,7 +46,7 @@ class UserSeeder extends Seeder
             'gender_id' => 1,
             'role_id' => 4,
             'email' => 'user@mail.com',
-            'password' => '123'
+            'password' => Hash::make('123')
         ]);
     }
 }
