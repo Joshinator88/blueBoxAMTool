@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->fullText(['name', 'last_name', 'email']); 
         });
     }
 
@@ -32,6 +33,9 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('users', function ($table) {
+            $table->dropFullText(['name', 'last_name', 'email']); // removing full-text index
+        });
         Schema::dropIfExists('users');
     }
 };

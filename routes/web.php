@@ -33,5 +33,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get('usermanagement', [RegisterController::class, 'index'])->name('usermanagement');
 route::post('usermanagement', [RegisterController::class, 'create']);
+Route::post('editUser', [RegisterController::class, 'update']);
+Route::get('search-users', [RegisterController::class, 'search']);
 
 require __DIR__ . '/auth.php';

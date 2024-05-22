@@ -5,8 +5,8 @@
         </h2>
     </x-slot>
 
- 
-                <form method="POST" enctype="multipart/form-data"  class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 ml-2 w-5/12 mt-2">
+ <div class="flex">
+ <form method="POST" action="usermanagement" enctype="multipart/form-data"  class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-2 w-5/12">
                     @csrf
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="firstname">
@@ -50,5 +50,44 @@
                         <input class="bg-blue-500 text-white py-1 rounded-md w-full hover:bg-blue-400 hover:cursor-pointer" id="email" type="submit" name="submit" placeholder="Email">
                     </div>
                 </form>
+
+                <div class="w-6/12 mt-5 mx-auto rounded h-fit">
+                    <form method="Get" action="search-users" enctype="multipart/form-data" class="w-full bg-white rounded">
+                    @csrf
+                    <div class="flex">
+                        <input class="rounded-l-md border-blue-300 w-10/12" type="text" id="userSearch" name="userSearch" placeholder="user@example.com">
+                        <input class="rounded-r-md bg-blue-500 w-2/12 text-white hover:cursor-pointer hover:bg-blue-400" type="submit" id="searchSubmit" name="searchSubmit" value="Search">
+                    </div>
+                    </form>
+                    @if(isset($searchedUsers))
+                        <div class="mt-8 mb-3 bg-white p-5 pb-5 rounded-md">
+                        @if(count($searchedUsers) > 0)
+                        <ul>
+                            @foreach($searchedUsers as $user)
+                            <form action="editUser" method="POST" enctype="multipart/form-data"  class="mx-5 mb-3 border-b">
+                                @csrf
+                                <div class="grid grid-rows-2 grid-flow-col grid-cols-[auto_150px]">
+                                        <p class="my-2">{{$user->name}}</p>
+                                        <p class="my-2">{{$user->email}}</p>
+                                        <input type="hidden" name="userId" id="userId" value="{{$user->id}}">
+                                        <input type="submit" value="Edit" name="editUser" id="editUser" class="bg-green-700 text-white my-2 rounded-md hover:cursor-pointer hover:bg-green-600">
+                                        <input type="submit" value="Delete" name="deleteUser" id="deleteUser" class="bg-red-700 text-white my-2 rounded-md hover:cursor-pointer hover:bg-red-600">
+                                </div>
+                                
+                            </form>
+                            @endforeach
+                        </ul>
+                        @else
+                        <p class="mx-auto">there were no users found</p>
+                        @endif
+                        </div>
+                    @endif
+                    
+                </div>
+                
+ </div>
+                
+
+
                 
 </x-app-layout>
