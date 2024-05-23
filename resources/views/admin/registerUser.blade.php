@@ -5,6 +5,9 @@
         </h2>
     </x-slot>
 
+    @if(isset($message))
+        <h2 class="text-center {{$color}} p-3 mb-3">{{ $message }}</h2>
+    @endif
  <div class="flex">
  <form method="POST" action="usermanagement" enctype="multipart/form-data"  class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 m-2 w-5/12">
                     @csrf
