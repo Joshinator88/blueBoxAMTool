@@ -50,7 +50,7 @@
                         </select>
                     </div>
                     <div class="mb-4">
-                        <input class="bg-blue-500 text-white py-1 rounded-md w-full hover:bg-blue-400 hover:cursor-pointer" id="email" type="submit" name="submit" placeholder="Email">
+                        <input class="transition duration-300 hover:duration-300 hover:scale-105 bg-blue-500 text-white py-1 rounded-md w-full hover:bg-blue-400 hover:cursor-pointer" id="create" type="submit" name="submit" value="Create">
                     </div>
                 </form>
 
@@ -73,8 +73,8 @@
                                         <p class="my-2">{{$user->name}}</p>
                                         <p class="my-2">{{$user->email}}</p>
                                         <input type="hidden" name="userId" id="userId" value="{{$user->id}}">
-                                        <input type="submit" value="Edit" name="editUser" id="editUser" class="bg-green-700 text-white my-2 rounded-md hover:cursor-pointer hover:bg-green-600">
-                                        <input type="submit" value="Delete" name="deleteUser" id="deleteUser" class="bg-red-700 text-white my-2 rounded-md hover:cursor-pointer hover:bg-red-600">
+                                        <input type="submit" value="Edit" name="editUser" id="editUser" class="transition duration-300 hover:duration-300 hover:scale-105 bg-green-700 text-white my-2 rounded-md hover:cursor-pointer hover:bg-green-600">
+                                        <input type="submit" value="Delete" name="deleteUser" id="deleteUser" class="transition duration-300 hover:duration-300 hover:scale-105 bg-red-700 text-white my-2 rounded-md hover:cursor-pointer hover:bg-red-600">
                                 </div>
                                 
                             </form>

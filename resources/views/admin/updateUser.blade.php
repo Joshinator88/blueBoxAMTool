@@ -8,7 +8,7 @@
     @if (isset($error))
         <h2 class="text-center text-red-600 p-3 mb-3">{{$error}}</h2>
     @elseif (isset($message))
-        <h2 class="text-center text-red-600 p-3 mb-3">{{$message}}</h2>
+        <h2 class="text-center text-green-600 p-3 mb-3">{{$message}}</h2>
     @endif
     
     <form class="bg-white mt-2 mx-auto p-5 rounded-md w-3/5" action="editUser" method="post" enctype="multipart/form-data">
@@ -64,8 +64,8 @@
         </div>
 
         <div class="flex flex-col">
-            <input class="bg-blue-800 text-white p-1 w-4/12 mx-auto my-1 rounded-md hover:cursor-pointer hover:bg-blue-700 hover:text-slate-50" type="submit" value="Update" name="update" id="update">
-            <input class="bg-red-800 text-white p-1 w-4/12 mx-auto my-1 rounded-md hover:cursor-pointer hover:bg-red-700 hover:text-slate-50" type="submit" value="Reset password" name="resetPassword" id="resetPassword">
+            <input class="transition duration-300 hover:duration-300 hover:scale-105 bg-blue-800 text-white p-1 w-4/12 mx-auto my-1 rounded-md hover:cursor-pointer hover:bg-blue-700 hover:text-slate-50" type="submit" value="Update" name="update" id="update">
+            <input class="transition duration-300 hover:duration hover:scale-105 bg-red-800 text-white p-1 w-4/12 mx-auto my-1 rounded-md hover:cursor-pointer hover:bg-red-700 hover:text-slate-50" type="submit" value="Reset password" name="resetPassword" id="resetPassword">
         </div>
         <input type="hidden" name="userId" id="userId" value="{{$user->id}}">
     </form>

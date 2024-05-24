@@ -24,7 +24,7 @@ class RegisterController extends Controller
         if (Auth::check()) {
             if (Auth::user()->role->role == "admin") {
                 return view(
-                    'admin.registerUser', 
+                    'admin.userManagement', 
                     [
                     'roles' => Role::all(),
                     'genders' => Gender::all()
@@ -53,7 +53,7 @@ class RegisterController extends Controller
             $color = "text-green-600";
         }
         return view(
-            'admin.registerUser', 
+            'admin.userManagement', 
             [
             'roles' => Role::all(),
             'genders' => Gender::all(),
@@ -66,7 +66,7 @@ class RegisterController extends Controller
     public function search(Request $request)
     {
         if (isset($request['userSearch'])) {
-            return view('admin.registerUser', [
+            return view('admin.userManagement', [
                 'searchedUsers' => User::query()
                                     ->WhereRaw(
                                         "MATCH (name, last_name, email) AGAINST (? IN BOOLEAN MODE)",
@@ -78,7 +78,7 @@ class RegisterController extends Controller
             ]);
         }
         return view(
-            'admin.registerUser', 
+            'admin.userManagement', 
             [
             'roles' => Role::all(),
             'genders' => Gender::all()
@@ -91,7 +91,7 @@ class RegisterController extends Controller
         if (isset($request["deleteUser"])) {
             User::where('id', $request['userId'])->delete();
             return view(
-                'admin.registerUser', 
+                'admin.userManagement', 
                 [
                 'roles' => Role::all(),
                 'genders' => Gender::all()
