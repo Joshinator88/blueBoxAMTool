@@ -10,7 +10,13 @@ class ParentController extends Controller
 {
     public function index(Request $request)
     {
-        $search = $request->input('parentSearch');
+        $categories = Category::all(); // Get all categories for the form
+        return view('parents.index', compact('parents', 'categories'));
+    }
+    
+    public function search(Request $request)
+    {
+        $search = $request['parentSearch'];
         $parents = ParentModel::with('category') // Eager load the category relationship
             ->where('name', 'like', '%' . $search . '%')
             ->get();
@@ -23,25 +29,23 @@ class ParentController extends Controller
         $request->validate([
             'name' => 'required',
             'category_id' => 'required', // Validate category_id
-            'partners' => 'required',
+            'partner_id' => 'required',
             'sales_support' => 'required',
             'sales_administrator' => 'required',
         ]);
 
-        // Ensure partners is properly formatted as a JSON array
-        $partners = explode(',', $request->input('partners'));
+        $partners = 
 
         ParentModel::create([
             'name' => $request->input('name'),
             'category_id' => $request->input('category_id'),
-            'partners' => json_encode($partners),
+            'partner_id' => $request->input('partner_id'),
             'sales_support' => $request->input('sales_support'),
             'sales_administrator' => $request->input('sales_administrator'),
         ]);
 
         return redirect()->route('parents.index');
     }
-
 
     public function edit($id)
     {
@@ -57,18 +61,15 @@ class ParentController extends Controller
         $request->validate([
             'name' => 'required',
             'category_id' => 'required',
-            'partners' => 'required',
+            'partner_id' => 'required',
             'sales_support' => 'required',
             'sales_administrator' => 'required',
         ]);
 
-        // Ensure partners is properly formatted as a JSON array
-        $partners = explode(',', $request->input('partners'));
-
         $parent->update([
-            'name' => $request->input('name'),
+            'name' => $request['name'],
             'category_id' => $request->input('category_id'),
-            'partners' => json_encode($partners),
+            'partner_id' => $request->input('partner_id'),
             'sales_support' => $request->input('sales_support'),
             'sales_administrator' => $request->input('sales_administrator'),
         ]);
