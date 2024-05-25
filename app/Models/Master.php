@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ParentModel extends Model
+class Master extends Model
 {
     use HasFactory;
 
-    protected $table = 'parents';
+    protected $table = 'masters';
 
     protected $fillable = [
         'name', 'category_id', 'partners', 'sales_support', 'sales_administrator',
@@ -19,5 +19,9 @@ class ParentModel extends Model
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
-}
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+}

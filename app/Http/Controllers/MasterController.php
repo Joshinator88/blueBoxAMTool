@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ParentModel;
 use App\Models\Category;
+use App\Models\Master;
 use Illuminate\Http\Request;
 
 class ParentController extends Controller
@@ -17,7 +17,7 @@ class ParentController extends Controller
     public function search(Request $request)
     {
         $search = $request['parentSearch'];
-        $parents = ParentModel::with('category') // Eager load the category relationship
+        $parents = Master::with('category') // Eager load the category relationship
             ->where('name', 'like', '%' . $search . '%')
             ->get();
         $categories = Category::all(); // Get all categories for the form
@@ -36,7 +36,7 @@ class ParentController extends Controller
 
         $partners = 
 
-        ParentModel::create([
+        Master::create([
             'name' => $request->input('name'),
             'category_id' => $request->input('category_id'),
             'partner_id' => $request->input('partner_id'),
@@ -49,14 +49,14 @@ class ParentController extends Controller
 
     public function edit($id)
     {
-        $parent = ParentModel::findOrFail($id);
+        $parent = Master::findOrFail($id);
         $categories = Category::all();
         return view('parents.edit', compact('parent', 'categories'));
     }
 
     public function update(Request $request, $id)
     {
-        $parent = ParentModel::findOrFail($id);
+        $parent = Master::findOrFail($id);
 
         $request->validate([
             'name' => 'required',
@@ -79,7 +79,7 @@ class ParentController extends Controller
 
     public function destroy($id)
     {
-        $parent = ParentModel::findOrFail($id);
+        $parent = Master::findOrFail($id);
         $parent->delete();
         return redirect()->route('parents.index')->with('success', 'Parent deleted successfully');
     }
