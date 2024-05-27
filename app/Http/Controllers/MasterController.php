@@ -10,6 +10,7 @@ class MasterController extends Controller
 {
     public function index(Request $request)
     {
+        $parents = Master::with('category')->get(); // Eager load the category relationship
         $categories = Category::all(); // Get all categories for the form
         return view('parents.index', compact('parents', 'categories'));
     }
