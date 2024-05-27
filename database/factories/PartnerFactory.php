@@ -18,6 +18,7 @@ class PartnerFactory extends Factory
     {
         return [
             //
+            "name" => fake()->name()
         ];
     }
 }

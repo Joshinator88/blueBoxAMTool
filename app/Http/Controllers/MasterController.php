@@ -5,11 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Master;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MasterController extends Controller
 {
     public function index(Request $request)
     {
+        if (Auth::user()->role->role !== "admin") {
+            return redirect()->route('dashboard');
+        }
         $parents = Master::with('category')->get(); // Eager load the category relationship
         $categories = Category::all(); // Get all categories for the form
         return view('parents.index', compact('parents', 'categories'));
@@ -17,6 +21,9 @@ class MasterController extends Controller
     
     public function search(Request $request)
     {
+        if (Auth::user()->role->role !== "admin") {
+            return redirect()->route('dashboard');
+        }
         $search = $request['parentSearch'];
         $parents = Master::with('category') // Eager load the category relationship
             ->where('name', 'like', '%' . $search . '%')
@@ -27,6 +34,9 @@ class MasterController extends Controller
 
     public function store(Request $request)
     {
+        if (Auth::user()->role->role !== "admin") {
+            return redirect()->route('dashboard');
+        }
         $request->validate([
             'name' => 'required',
             'category_id' => 'required', // Validate category_id
@@ -50,6 +60,9 @@ class MasterController extends Controller
 
     public function edit($id)
     {
+        if (Auth::user()->role->role !== "admin") {
+            return redirect()->route('dashboard');
+        }
         $parent = Master::findOrFail($id);
         $categories = Category::all();
         return view('parents.edit', compact('parent', 'categories'));
@@ -57,6 +70,9 @@ class MasterController extends Controller
 
     public function update(Request $request, $id)
     {
+        if (Auth::user()->role->role !== "admin") {
+            return redirect()->route('dashboard');
+        }
         $parent = Master::findOrFail($id);
 
         $request->validate([
@@ -80,6 +96,9 @@ class MasterController extends Controller
 
     public function destroy($id)
     {
+        if (Auth::user()->role->role !== "admin") {
+            return redirect()->route('dashboard');
+        }
         $parent = Master::findOrFail($id);
         $parent->delete();
         return redirect()->route('parents.index')->with('success', 'Parent deleted successfully');

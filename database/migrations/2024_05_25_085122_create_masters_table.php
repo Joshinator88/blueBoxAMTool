@@ -18,7 +18,6 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignIdFor(Category::class);
-            $table->foreignIdFor(Partner::class);
             $table->timestamps();
         });
     }

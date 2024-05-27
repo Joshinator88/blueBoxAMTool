@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Master>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Gender>
  */
-class MasterFactory extends Factory
+class CategoryFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,7 +18,7 @@ class MasterFactory extends Factory
     {
         return [
             //
-            "name" => fake()->name()
+            "description" => fake()->sentence()
         ];
     }
 }
