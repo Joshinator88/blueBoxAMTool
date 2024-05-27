@@ -17,7 +17,8 @@ class MasterSeeder extends Seeder
         Master::factory()->create([
             "name" => "Nestle",
             "category_id" => 1,
-            "partner_id" => 1
+            "partner_id" => 1,
+            
         ]);
     }
 }

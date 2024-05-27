@@ -6,7 +6,7 @@ use App\Models\Category;
 use App\Models\Master;
 use Illuminate\Http\Request;
 
-class ParentController extends Controller
+class MasterController extends Controller
 {
     public function index(Request $request)
     {

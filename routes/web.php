@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\http\Controllers\RegisterController;
-use App\Http\Controllers\ParentController;
+use App\Http\Controllers\MasterController;
 use App\Http\Controllers\CategoryController;
 use App\Models\Role;
 use App\Models\User;
@@ -38,13 +38,13 @@ Route::post('usermanagement', [RegisterController::class, 'create']);
 Route::post('editUser', [RegisterController::class, 'update'])->name('usermanagement');
 Route::get('search-users', [RegisterController::class, 'search']);
 
-Route::get('/parents', [ParentController::class, 'index'])->name('parents.index');
-Route::post('/parents', [ParentController::class, 'store'])->name('parents.store');
-Route::resource('parents', ParentController::class);
-Route::get('parents/search', [ParentController::class, 'search'])->name('parents.search');
-Route::get('/parents/{id}/edit', [ParentController::class, 'edit'])->name('parents.edit');
-Route::put('/parents/{id}', [ParentController::class, 'update'])->name('parents.update');
-Route::delete('/parents/{id}', [ParentController::class, 'destroy'])->name('parents.destroy');
+Route::get('/parents', [MasterController::class, 'index'])->name('parents.index');
+Route::post('/parents', [MasterController::class, 'store'])->name('parents.store');
+Route::resource('parents', MasterController::class);
+Route::get('parents/search', [MasterController::class, 'search'])->name('parents.search');
+Route::get('/parents/{id}/edit', [MasterController::class, 'edit'])->name('parents.edit');
+Route::put('/parents/{id}', [MasterController::class, 'update'])->name('parents.update');
+Route::delete('/parents/{id}', [MasterController::class, 'destroy'])->name('parents.destroy');
 
 Route::resource('categories', CategoryController::class);
 Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
