@@ -31,10 +31,9 @@
                     @if(count($parents) > 0)
                         <ul>
                             @foreach($parents as $parent)
-                                <form action="{{ route('parents.update', $parent->id) }}" method="POST"
+                                <form action="/parents/update" method="POST"
                                       enctype="multipart/form-data" class="mx-5 mb-3 border-b">
                                     @csrf
-                                    @method('PUT')
                                     <div class="grid grid-rows-2 grid-flow-col grid-cols-[auto_150px]">
                                         <p class="my-2">{{ $parent->name }}</p>
                                         <p class="my-2">{{ optional($parent->category)->name }}</p>

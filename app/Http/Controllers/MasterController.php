@@ -68,39 +68,42 @@ class MasterController extends Controller
         return view('parents.edit', compact('parent', 'categories'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        if (Auth::user()->role->role !== "admin") {
-            return redirect()->route('dashboard');
+        // if (Auth::user()->role->role !== "admin") {
+        //     return redirect()->route('dashboard');
+        // }
+
+        if (isset($request['editParent'])) {
+            $parent = Master::findOrFail($request['parentId']);
+            $request->validate([
+                'name' => 'required',
+                'category_id' => 'required',
+                'partner_id' => 'required',
+                'sales_support' => 'required',
+                'sales_administrator' => 'required',
+            ]);
+    
+            $parent->update([
+                'name' => $request['name'],
+                'category_id' => $request->input('category_id'),
+                'partner_id' => $request->input('partner_id'),
+                'sales_support' => $request->input('sales_support'),
+                'sales_administrator' => $request->input('sales_administrator'),
+            ]);
+    
+            return redirect()->route('parents.index')->with('success', 'Parent updated successfully');
+        } else if (isset($request['deleteParent'])) {
+            $parent = Master::findOrFail($request['parentId']);
+            $parent->delete();
+            return redirect()->route('parents.index')->with('success', 'Parent deleted successfully');
         }
-        $parent = Master::findOrFail($id);
-
-        $request->validate([
-            'name' => 'required',
-            'category_id' => 'required',
-            'partner_id' => 'required',
-            'sales_support' => 'required',
-            'sales_administrator' => 'required',
-        ]);
-
-        $parent->update([
-            'name' => $request['name'],
-            'category_id' => $request->input('category_id'),
-            'partner_id' => $request->input('partner_id'),
-            'sales_support' => $request->input('sales_support'),
-            'sales_administrator' => $request->input('sales_administrator'),
-        ]);
-
-        return redirect()->route('parents.index')->with('success', 'Parent updated successfully');
     }
 
     public function destroy($id)
     {
-        if (Auth::user()->role->role !== "admin") {
-            return redirect()->route('dashboard');
-        }
-        $parent = Master::findOrFail($id);
-        $parent->delete();
-        return redirect()->route('parents.index')->with('success', 'Parent deleted successfully');
+        // if (Auth::user()->role->role !== "admin") {
+        //     return redirect()->route('dashboard');
+        // }
     }
 }
