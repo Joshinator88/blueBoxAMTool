@@ -52,15 +52,33 @@ class UserSeeder extends Seeder
         'password' => Hash::make('123')
         ]);
 
-        User::factory(20)->create([
+        User::factory(10)->create([
         "gender_id" => random_int(1, Gender::count()), 
-        "role_id" => random_int(1, Role::count())
+        "role_id" => 2
+        ]);
+        User::factory(10)->create([
+            "gender_id" => random_int(1, Gender::count()), 
+            "role_id" => 1
+        ]);
+        User::factory(10)->create([
+            "gender_id" => random_int(1, Gender::count()), 
+            "role_id" => 3
+        ]);
+        User::factory(10)->create([
+            "gender_id" => random_int(1, Gender::count()), 
+            "role_id" => 4
         ]);
 
-        $users = User::all();
         
-        Master::All()->each(function ($master) use ($users) {
-            $master->users()->saveMany($users);
+        Master::All()->each(function ($master) {
+            $sales1 = 0;
+            $sales2 = 0;
+            while ($sales1 == $sales2) {
+                $sales1 = mt_rand(5, 14);
+                $sales2 = mt_rand(5, 14);
+            }
+            $master->users()->save(User::where("role_id", 2)->find($sales1));
+            $master->users()->save(User::where("role_id", 2)->find($sales2));
         });
     }
 }

@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Partner extends Model
 {
     use HasFactory;
+    
+    
+    public function masters()
+    {
+        return $this->belongsToMany(Master::class);
+    }
 }

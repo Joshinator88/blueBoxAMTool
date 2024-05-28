@@ -16,17 +16,17 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         //
-        $names = [
-            "candy",
-            "cookies",
-            "fresh food",
-            "junk food",
-            'toys'
+        $categories = [
+            "CHAMPIONS",
+            "UEFA",
+            "MAINTAIN",
+            "PROSPECT",
+            "1-PARTNER"
         ];
 
-        foreach ($names as $name) {
+        foreach ($categories as $category) {
             Category::factory()->create([
-                "name" => $name,
+                "name" => $category,
             ]);
         }
     }

@@ -14,11 +14,18 @@ class PartnerSeeder extends Seeder
      */
     public function run(): void
     {
-        //
-        $masters = Master::all();
-        foreach ($masters as $master) {
-            Partner::factory(8)->create([
-                "master_id" => $master->id
+        //a loop to create all the partners
+        
+        $partners = [
+            "Hinojosa",
+            "Klingele",
+            "VPK",
+            "Cart-One FEPA",
+            "Cart-One SADA"
+        ];
+        foreach ($partners as $partner) {
+            Partner::factory()->create([
+                'name' => $partner
             ]);
         }
     }

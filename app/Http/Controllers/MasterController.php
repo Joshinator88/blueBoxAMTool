@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Master;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use League\CommonMark\Node\Inline\Newline;
 
 class MasterController extends Controller
 {
@@ -70,40 +73,38 @@ class MasterController extends Controller
 
     public function update(Request $request)
     {
-        // if (Auth::user()->role->role !== "admin") {
-        //     return redirect()->route('dashboard');
-        // }
-
+        // check if logged in user is authorized to execute this action
+        if (Auth::user()->role->role !== "admin") {
+            return redirect()->route('dashboard');
+        }
+        // check if the user wants to go to the edit page
         if (isset($request['editParent'])) {
-            $parent = Master::findOrFail($request['parentId']);
-            $request->validate([
-                'name' => 'required',
-                'category_id' => 'required',
-                'partner_id' => 'required',
-                'sales_support' => 'required',
-                'sales_administrator' => 'required',
-            ]);
+            // $request->validate([
+            //     'name' => 'required',
+            //     'category_id' => 'required',
+            //     'partner_id' => 'required',
+            //     'sales_support' => 'required',
+            //     'sales_administrator' => 'required',
+            // ]);
     
-            $parent->update([
-                'name' => $request['name'],
-                'category_id' => $request->input('category_id'),
-                'partner_id' => $request->input('partner_id'),
-                'sales_support' => $request->input('sales_support'),
-                'sales_administrator' => $request->input('sales_administrator'),
-            ]);
-    
-            return redirect()->route('parents.index')->with('success', 'Parent updated successfully');
+            // $parent->update([
+            //     'name' => $request['name'],
+            //     'category_id' => $request->input('category_id'),
+            //     'partner_id' => $request->input('partner_id'),
+            //     'sales_support' => $request->input('sales_support'),
+            //     'sales_administrator' => $request->input('sales_administrator'),
+            // ]);
+                $roleId = Role::where("role", "sales")->first();
+            
+            return view("parents.edit", [
+                "parent" => Master::with("users", "category")->find($request['parentId']),
+                "users" => User::where("role_id", $roleId->id)->get()
+                ]);
+        // check if the user wants to delete this parent
         } else if (isset($request['deleteParent'])) {
             $parent = Master::findOrFail($request['parentId']);
             $parent->delete();
             return redirect()->route('parents.index')->with('success', 'Parent deleted successfully');
         }
-    }
-
-    public function destroy($id)
-    {
-        // if (Auth::user()->role->role !== "admin") {
-        //     return redirect()->route('dashboard');
-        // }
     }
 }

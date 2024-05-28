@@ -24,4 +24,8 @@ class Master extends Model
     {
         return $this->belongsToMany(User::class);
     }
+    public function partners()
+    {
+        return $this->belongsToMany(Partner::class);
+    }
 }

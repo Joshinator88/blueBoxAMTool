@@ -33,7 +33,7 @@
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="category">
                                 Category
                             </label>
-                            <input class="w-full rounded-md border-blue-300 p-2" id="category" name="category" type="text" value="{{ $parent->category }}" required>
+                            <input class="w-full rounded-md border-blue-300 p-2" id="category" name="category" type="text" value="{{ $parent->category->name }}" required>
                         </div>
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="partners">
@@ -43,21 +43,31 @@
                             <input class="w-full rounded-md border-blue-300 p-2" id="partners" name="partners" type="text" value="" required>
                         </div>
                         <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="sales_support">
-                                Sales Support
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="salesOne">
+                                Sales agent one
                             </label>
-                            <select class="w-full rounded-md border-blue-300 p-2" name="sales_support" id="sales_support" required>
-                                <option value="support1" {{ $parent->sales_support == 'support1' ? 'selected' : '' }}>Sales support 1</option>
-                                <option value="support2" {{ $parent->sales_support == 'support2' ? 'selected' : '' }}>Sales support 2</option>
+                            <select class="w-full rounded-md border-blue-300 p-2" name="sales_administrator" id="sales_administrator" required>
+                                @foreach ($users as $user)
+                                    @if ($user->id == $parent->users[0]->id)
+                                        <option selected="selected" value="{{ $user->id }}">{{ $user->name . " " . $user->last_name }}</option>
+                                    @else
+                                        <option value="{{ $user->id }}">{{ $user->name . " " . $user->last_name }}</option>
+                                    @endif
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="sales_administrator">
-                                Sales Administrator
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="salesTwo">
+                                Sales agent two
                             </label>
-                            <select class="w-full rounded-md border-blue-300 p-2" name="sales_administrator" id="sales_administrator" required>
-                                <option value="admin1" {{ $parent->sales_administrator == 'admin1' ? 'selected' : '' }}>Sales administrator 1</option>
-                                <option value="admin2" {{ $parent->sales_administrator == 'admin2' ? 'selected' : '' }}>Sales administrator 2</option>
+                            <select class="w-full rounded-md border-blue-300 p-2" name="salesTwo" id="salesTwo" required>
+                                @foreach ($users as $user)
+                                    @if ($user->id == $parent->users[1]->id)
+                                        <option selected="selected" value="{{ $user->id }}">{{ $user->name . " " . $user->last_name }}</option>
+                                    @else
+                                        <option value="{{ $user->id }}">{{ $user->name . " " . $user->last_name }}</option>
+                                    @endif
+                                @endforeach
                             </select>
                         </div>
                         <div class="mb-4">

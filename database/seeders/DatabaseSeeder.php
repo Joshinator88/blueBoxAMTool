@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             MasterSeeder::class,
             PartnerSeeder::class,
-            UserSeeder::class
+            UserSeeder::class,
+            MasterPartnerSeeder::class
         ]);
     }
 }
