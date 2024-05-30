@@ -12,7 +12,7 @@ class Master extends Model
     protected $table = 'masters';
 
     protected $fillable = [
-        'name', 'category_id', "user_id",
+        'name', 'category_id', "user_id", "partner_id",
     ];
 
     public function category()

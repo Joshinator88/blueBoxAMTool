@@ -10,16 +10,15 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'category_name' => 'required',
             'description' => 'nullable',
         ]);
 
         Category::create([
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
+            'name' => $request['category_name'],
+            'description' => $request['description']
         ]);
 
         return redirect()->route('parents.index')->with('success', 'Category added successfully');
     }
 }
-

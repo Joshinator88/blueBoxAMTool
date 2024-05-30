@@ -41,12 +41,12 @@ Route::get('search-users', [RegisterController::class, 'search']);
 
 Route::get('/parents', [MasterController::class, 'index'])->name('parents.index');
 Route::post('/parents', [MasterController::class, 'store'])->name('parents.store');
-Route::resource('parents', MasterController::class);
-Route::get('parents/search', [MasterController::class, 'search'])->name('parents.search');
+Route::get('/parents/search', [MasterController::class, 'search'])->name('parents');
 Route::get('/parents/{id}/edit', [MasterController::class, 'edit'])->name('parents.edit');
-// Route::put('/parents/{id}', [MasterController::class, 'update'])->name('parents.update');
 Route::post('/parents/update', [MasterController::class, 'update'])->name('parents.update');
-// Route::delete('/parents/{id}', [MasterController::class, 'destroy'])->name('parents.destroy');
+Route::resource('parents', MasterController::class);
+
+// Route::get('{parent}', [MasterController::class, 'indexOfOneMaster'])->name('parents');
 
 Route::resource('categories', CategoryController::class);
 Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');

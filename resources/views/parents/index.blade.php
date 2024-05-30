@@ -9,7 +9,7 @@
         <!-- Find a Parent Section -->
         <div class="w-1/3 bg-white shadow-md rounded p-4">
             <h3 class="text-blue-600 font-semibold text-lg mb-4">Find a Parent</h3>
-            <form method="GET" action="{{ route('parents.index') }}" enctype="multipart/form-data" class="mb-4">
+            <form method="GET" action="/parents/search" enctype="multipart/form-data" class="mb-4">
                 @csrf
                 <div class="flex">
                     <input class="rounded-l-md border-blue-300 w-10/12 p-2" type="text" id="parentSearch"
@@ -31,7 +31,8 @@
                     @if(count($parents) > 0)
                         <ul>
                             @foreach($parents as $parent)
-                                <form action="/parents/update" method="POST"
+                            <a href="/{{$parent->name}}" class="hover:text-blue-800 hover:animate-pulse">
+                            <form action="/parents/update" method="POST"
                                       enctype="multipart/form-data" class="mx-5 mb-3 border-b">
                                     @csrf
                                     <div class="grid grid-rows-2 grid-flow-col grid-cols-[auto_150px]">
@@ -44,6 +45,7 @@
                                                class="bg-red-700 text-white my-2 rounded-md hover:cursor-pointer hover:bg-red-600">
                                     </div>
                                 </form>
+                            </a>
                             @endforeach
                         </ul>
                     @else
@@ -80,29 +82,37 @@
                     </select>
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="partners">
-                        Partner <span class="text-xs text-gray-500"></span>
-                    </label>
-                    <input class="w-full rounded-md border-blue-300 p-2" id="partners" name="partners" type="text"
-                        placeholder="Partner (required)">
+                    @foreach ($partners as $partner)
+                        <input type="checkbox" id="{{ $partner->name }}" name="{{ $partner->name }}" value="{{ $partner->id }}">
+                        <label for="{{ $partner->id }}"> {{ $partner->name }}</label>
+                    @endforeach
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="sales_support">
-                        Sales Support
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="salesOne">
+                        Sales agent one
                     </label>
-                    <select class="w-full rounded-md border-blue-300 p-2" name="sales_support" id="sales_support">
-                        <option value="support1">Sales support 1</option>
-                        <option value="support2">Sales support 2</option>
+                    <select class="w-full rounded-md border-blue-300 p-2" name="salesOne" id="salesOne" required>
+                        @foreach ($users as $user)
+                            @if ($user->id == $parent->users[0]->id)
+                                <option selected="selected" value="{{ $user->id }}">{{ $user->name . " " . $user->last_name }}</option>
+                            @else
+                                <option value="{{ $user->id }}">{{ $user->name . " " . $user->last_name }}</option>
+                            @endif
+                        @endforeach
                     </select>
                 </div>
                 <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="sales_administrator">
-                        Sales Administrator
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="salesTwo">
+                        Sales agent two
                     </label>
-                    <select class="w-full rounded-md border-blue-300 p-2" name="sales_administrator"
-                        id="sales_administrator">
-                        <option value="admin1">Sales administrator 1</option>
-                        <option value="admin2">Sales administrator 2</option>
+                    <select class="w-full rounded-md border-blue-300 p-2" name="salesTwo" id="salesTwo" required>
+                        @foreach ($users as $user)
+                            @if ($user->id == $parent->users[0]->id)
+                                <option selected="selected" value="{{ $user->id }}">{{ $user->name . " " . $user->last_name }}</option>
+                            @else
+                                <option value="{{ $user->id }}">{{ $user->name . " " . $user->last_name }}</option>
+                            @endif
+                        @endforeach
                     </select>
                 </div>
                 <div class="mb-4">

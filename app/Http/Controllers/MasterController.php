@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Master;
+use App\Models\Partner;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -12,27 +13,36 @@ use League\CommonMark\Node\Inline\Newline;
 
 class MasterController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         if (Auth::user()->role->role !== "admin") {
             return redirect()->route('dashboard');
         }
+        $partners = Partner::all();
+        $users = User::where('role_id', 2)->get();
         $parents = Master::with('category')->get(); // Eager load the category relationship
         $categories = Category::all(); // Get all categories for the form
-        return view('parents.index', compact('parents', 'categories'));
+        return view('parents.index', compact('parents', 'categories', 'users', 'partners'));
     }
+
+    // public function indexOfOneMaster()
+    // {
+    //     return view('sharedAdminSales.singleparent');
+    // }
     
     public function search(Request $request)
     {
         if (Auth::user()->role->role !== "admin") {
             return redirect()->route('dashboard');
         }
+        $users = User::where('role_id', 2)->get();
         $search = $request['parentSearch'];
         $parents = Master::with('category') // Eager load the category relationship
             ->where('name', 'like', '%' . $search . '%')
             ->get();
         $categories = Category::all(); // Get all categories for the form
-        return view('parents.index', compact('parents', 'categories'));
+        // dd($parents);
+        return view('parents.index', compact('parents', 'categories', 'users'));
     }
 
     public function store(Request $request)
@@ -40,35 +50,34 @@ class MasterController extends Controller
         if (Auth::user()->role->role !== "admin") {
             return redirect()->route('dashboard');
         }
-        $request->validate([
-            'name' => 'required',
-            'category_id' => 'required', // Validate category_id
-            'partner_id' => 'required',
-            'sales_support' => 'required',
-            'sales_administrator' => 'required',
+        
+        $master = Master::create([
+            'name' => $request['name'],
+            'category_id' => $request['category_id'],
         ]);
-
-        $partners = 
-
-        Master::create([
-            'name' => $request->input('name'),
-            'category_id' => $request->input('category_id'),
-            'partner_id' => $request->input('partner_id'),
-            'sales_support' => $request->input('sales_support'),
-            'sales_administrator' => $request->input('sales_administrator'),
-        ]);
+        $master->users()->attach(User::where("role_id", 2)->find($request['salesOne']));
+        if ($request['salesOne'] !== $request['salesTwo']) {
+            $master->users()->attach(User::where("role_id", 2)->find($request['salesTwo']));
+        }
+        
+        foreach (Partner::all() as $partner) {
+            if (isset($request[$partner->name])) {
+                $master->partners()->attach($partner);
+            }
+        }
 
         return redirect()->route('parents.index');
     }
 
-    public function edit($id)
+    public function edit(Request $request)
     {
         if (Auth::user()->role->role !== "admin") {
             return redirect()->route('dashboard');
         }
-        $parent = Master::findOrFail($id);
+        $parent = Master::findOrFail($request['parentId'])->with("catagry", 'partners', 'users');
         $categories = Category::all();
-        return view('parents.edit', compact('parent', 'categories'));
+        $partners = Partner::all();
+        return view('parents.edit', compact('parent', 'categories', 'partners'));
     }
 
     public function update(Request $request)
@@ -77,28 +86,16 @@ class MasterController extends Controller
         if (Auth::user()->role->role !== "admin") {
             return redirect()->route('dashboard');
         }
-        // check if the user wants to go to the edit page
+        // check if the user wants to go to the edit page of this parent
         if (isset($request['editParent'])) {
-            // $request->validate([
-            //     'name' => 'required',
-            //     'category_id' => 'required',
-            //     'partner_id' => 'required',
-            //     'sales_support' => 'required',
-            //     'sales_administrator' => 'required',
-            // ]);
-    
-            // $parent->update([
-            //     'name' => $request['name'],
-            //     'category_id' => $request->input('category_id'),
-            //     'partner_id' => $request->input('partner_id'),
-            //     'sales_support' => $request->input('sales_support'),
-            //     'sales_administrator' => $request->input('sales_administrator'),
-            // ]);
                 $roleId = Role::where("role", "sales")->first();
+                $master = Master::with("users", "category", 'partners')->find($request['parentId']);
             
             return view("parents.edit", [
-                "parent" => Master::with("users", "category")->find($request['parentId']),
-                "users" => User::where("role_id", $roleId->id)->get()
+                "parent" => $master,
+                "users" => User::where("role_id", $roleId->id)->get(),
+                "partners" => Partner::all(),
+                "selectedPartners" => $master->partners->pluck("id")->toArray()
                 ]);
         // check if the user wants to delete this parent
         } else if (isset($request['deleteParent'])) {

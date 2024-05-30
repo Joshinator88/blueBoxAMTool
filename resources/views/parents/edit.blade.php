@@ -36,17 +36,21 @@
                             <input class="w-full rounded-md border-blue-300 p-2" id="category" name="category" type="text" value="{{ $parent->category->name }}" required>
                         </div>
                         <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="partners">
-                                Partners
-                            </label>
-                            {{-- empty value --}}
-                            <input class="w-full rounded-md border-blue-300 p-2" id="partners" name="partners" type="text" value="" required>
+                        @foreach ($partners as $partner)
+                        <!-- make it checked if the master is registrered with this partner -->
+                            @if (in_array($partner->id, $selectedPartners))
+                                <input checked type="checkbox" id="{{ $partner->name }}" name="{{ $partner->name }}" value="{{ $partner->id }}">
+                            @else
+                                <input type="checkbox" id="{{ $partner->name }}" name="{{ $partner->name }}" value="{{ $partner->id }}">
+                            @endif
+                            <label for="{{ $partner->id }}"> {{ $partner->name }}</label>
+                        @endforeach
                         </div>
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="salesOne">
                                 Sales agent one
                             </label>
-                            <select class="w-full rounded-md border-blue-300 p-2" name="sales_administrator" id="sales_administrator" required>
+                            <select class="w-full rounded-md border-blue-300 p-2" name="salesOne" id="salesOne" required>
                                 @foreach ($users as $user)
                                     @if ($user->id == $parent->users[0]->id)
                                         <option selected="selected" value="{{ $user->id }}">{{ $user->name . " " . $user->last_name }}</option>
