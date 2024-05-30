@@ -42,7 +42,7 @@ Route::get('search-users', [RegisterController::class, 'search']);
 Route::get('/parents', [MasterController::class, 'index'])->name('parents.index');
 Route::post('/parents', [MasterController::class, 'store'])->name('parents.store');
 Route::get('/parents/search', [MasterController::class, 'search'])->name('parents');
-Route::get('/parents/{id}/edit', [MasterController::class, 'edit'])->name('parents.edit');
+Route::post('/parents/edit', [MasterController::class, 'edit'])->name('parents.edit');
 Route::post('/parents/update', [MasterController::class, 'update'])->name('parents.update');
 Route::resource('parents', MasterController::class);
 

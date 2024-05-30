@@ -61,7 +61,7 @@ class MasterController extends Controller
         }
         
         foreach (Partner::all() as $partner) {
-            if (isset($request[$partner->name])) {
+            if (isset($request[$partner->id])) {
                 $master->partners()->attach($partner);
             }
         }
@@ -69,15 +69,41 @@ class MasterController extends Controller
         return redirect()->route('parents.index');
     }
 
+    // this method gets called when the user actiualy presses de edit putton on the update page
     public function edit(Request $request)
     {
+        dd($request);
         if (Auth::user()->role->role !== "admin") {
             return redirect()->route('dashboard');
         }
-        $parent = Master::findOrFail($request['parentId'])->with("catagry", 'partners', 'users');
+
+
+        $roleId = Role::where("role", "sales")->first();
+        $parent = Master::with("users", "category", 'partners')->find($request['parentId']);
+        $selectedPartners = $parent->partners->pluck("id")->toArray();
         $categories = Category::all();
+        $users = User::where("role_id", $roleId->id)->get();
         $partners = Partner::all();
-        return view('parents.edit', compact('parent', 'categories', 'partners'));
+        $newPartners = [];
+
+        // running through all partners to check what checkboxes are selected
+        foreach ($partners as $partner) {
+            // this means the checkbox is ticked
+            if (isset($request[$partner->id])) {
+                array_push($newPartners, $partner->id);
+            }
+        }
+         // update the parents name and category
+         $parent->update([
+            'name' => $request['name'],
+            "category_id" => $request['category_id']
+         ]);
+
+        // adding the new users to the master and removing the ones that are not relavant anymore
+        $parent->users()->sync($request['salesOne'], $request['salesTwo']);
+        // add the new partners to the master and removing the ones that are not relavant anymore
+        $parent->partners()->sync($newPartners);
+        return view('parents.edit', compact('parent', 'categories', 'partners', "selectedPartners", 'users'));
     }
 
     public function update(Request $request)
@@ -95,7 +121,8 @@ class MasterController extends Controller
                 "parent" => $master,
                 "users" => User::where("role_id", $roleId->id)->get(),
                 "partners" => Partner::all(),
-                "selectedPartners" => $master->partners->pluck("id")->toArray()
+                "selectedPartners" => $master->partners->pluck("id")->toArray(),
+                "categories" => Category::all()
                 ]);
         // check if the user wants to delete this parent
         } else if (isset($request['deleteParent'])) {

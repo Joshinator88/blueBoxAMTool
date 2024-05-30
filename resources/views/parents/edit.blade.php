@@ -8,9 +8,8 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <form method="POST" action="{{ route('parents.update', $parent->id) }}" enctype="multipart/form-data">
+                <form method="POST" action="/parents/edit" enctype="multipart/form-data">
                     @csrf
-                    @method('PUT')
                     <div class="p-6">
                         @if ($errors->any())
                             <div class="mb-4">
@@ -30,21 +29,32 @@
                             <input class="w-full rounded-md border-blue-300 p-2" id="name" name="name" type="text" value="{{ $parent->name }}" required>
                         </div>
                         <div class="mb-4">
-                            <label class="block text-gray-700 text-sm font-bold mb-2" for="category">
+                            <label class="block text-gray-700 text-sm font-bold mb-2" for="category_id">
                                 Category
                             </label>
-                            <input class="w-full rounded-md border-blue-300 p-2" id="category" name="category" type="text" value="{{ $parent->category->name }}" required>
+                            <select class="w-full rounded-md border-blue-300 p-2" id="category_id" name="category_id">
+                                @foreach($categories as $category)
+                                    @if($category == $parent->category)
+                                        <option selected="selected" value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @else
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="mb-4">
-                        @foreach ($partners as $partner)
-                        <!-- make it checked if the master is registrered with this partner -->
-                            @if (in_array($partner->id, $selectedPartners))
-                                <input checked type="checkbox" id="{{ $partner->name }}" name="{{ $partner->name }}" value="{{ $partner->id }}">
-                            @else
-                                <input type="checkbox" id="{{ $partner->name }}" name="{{ $partner->name }}" value="{{ $partner->id }}">
-                            @endif
-                            <label for="{{ $partner->id }}"> {{ $partner->name }}</label>
-                        @endforeach
+                        <p>Partners</p>
+                        <div class="mb-4 grid grid-flow-col">
+                            @foreach ($partners as $partner)
+                                <div>
+                                <!-- make it checked if the master is registrered with this partner -->
+                                    @if (in_array($partner->id, $selectedPartners))
+                                        <input checked type="checkbox" id="{{ $partner->id }}" name="{{ $partner->id }}" value="{{ $partner->id }}">
+                                    @else
+                                        <input type="checkbox" id="{{ $partner->id }}" name="{{ $partner->id }}" value="{{ $partner->id }}">
+                                    @endif
+                                    <label for="{{ $partner->id }}"> {{ $partner->name }}</label>
+                                </div>
+                            @endforeach
                         </div>
                         <div class="mb-4">
                             <label class="block text-gray-700 text-sm font-bold mb-2" for="salesOne">
@@ -75,6 +85,7 @@
                             </select>
                         </div>
                         <div class="mb-4">
+                            <input type="hidden" value="{{ $parent->id }}" id="parentId" name="parentId">
                             <button type="submit" class="bg-blue-500 text-white py-2 rounded-md w-full hover:bg-blue-400 hover:cursor-pointer">
                                 Update Parent
                             </button>

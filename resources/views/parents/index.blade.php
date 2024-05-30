@@ -83,7 +83,7 @@
                 </div>
                 <div class="mb-4">
                     @foreach ($partners as $partner)
-                        <input type="checkbox" id="{{ $partner->name }}" name="{{ $partner->name }}" value="{{ $partner->id }}">
+                        <input type="checkbox" id="{{ $partner->id }}" name="{{ $partner->id }}" value="{{ $partner->id }}">
                         <label for="{{ $partner->id }}"> {{ $partner->name }}</label>
                     @endforeach
                 </div>
