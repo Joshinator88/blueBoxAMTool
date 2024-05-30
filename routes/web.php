@@ -45,6 +45,7 @@ Route::get('/parents/search', [MasterController::class, 'search'])->name('parent
 Route::get('/parents/{id}/edit', [MasterController::class, 'edit'])->name('parents.edit');
 Route::post('/parents/update', [MasterController::class, 'update'])->name('parents.update');
 Route::resource('parents', MasterController::class);
+Route::get('parents/{id}', [MasterController::class, 'show'])->name('parents.show');
 
 // Route::get('{parent}', [MasterController::class, 'indexOfOneMaster'])->name('parents');
 

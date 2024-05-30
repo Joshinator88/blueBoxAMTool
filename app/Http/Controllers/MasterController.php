@@ -24,12 +24,17 @@ class MasterController extends Controller
         $categories = Category::all(); // Get all categories for the form
         return view('parents.index', compact('parents', 'categories', 'users', 'partners'));
     }
+    public function show($id)
+    {
+        $parent = Master::with(['category', 'contacts', 'strategies', 'contracts'])->findOrFail($id);
+        return view('parents.show', compact('parent'));
+    }
 
     // public function indexOfOneMaster()
     // {
     //     return view('sharedAdminSales.singleparent');
     // }
-    
+
     public function search(Request $request)
     {
         if (Auth::user()->role->role !== "admin") {
@@ -50,7 +55,7 @@ class MasterController extends Controller
         if (Auth::user()->role->role !== "admin") {
             return redirect()->route('dashboard');
         }
-        
+
         $master = Master::create([
             'name' => $request['name'],
             'category_id' => $request['category_id'],
@@ -59,7 +64,7 @@ class MasterController extends Controller
         if ($request['salesOne'] !== $request['salesTwo']) {
             $master->users()->attach(User::where("role_id", 2)->find($request['salesTwo']));
         }
-        
+
         foreach (Partner::all() as $partner) {
             if (isset($request[$partner->name])) {
                 $master->partners()->attach($partner);
@@ -88,16 +93,16 @@ class MasterController extends Controller
         }
         // check if the user wants to go to the edit page of this parent
         if (isset($request['editParent'])) {
-                $roleId = Role::where("role", "sales")->first();
-                $master = Master::with("users", "category", 'partners')->find($request['parentId']);
-            
+            $roleId = Role::where("role", "sales")->first();
+            $master = Master::with("users", "category", 'partners')->find($request['parentId']);
+
             return view("parents.edit", [
                 "parent" => $master,
                 "users" => User::where("role_id", $roleId->id)->get(),
                 "partners" => Partner::all(),
                 "selectedPartners" => $master->partners->pluck("id")->toArray()
-                ]);
-        // check if the user wants to delete this parent
+            ]);
+            // check if the user wants to delete this parent
         } else if (isset($request['deleteParent'])) {
             $parent = Master::findOrFail($request['parentId']);
             $parent->delete();
