@@ -31,7 +31,7 @@
                     @if(count($parents) > 0)
                         <ul>
                             @foreach($parents as $parent)
-                            <a href="/{{$parent->name}}" class="hover:text-blue-800 hover:animate-pulse">
+                            <a href="/parent/{{$parent->id}}" class="hover:text-blue-800 hover:animate-pulse">
                             <form action="/parents/update" method="POST"
                                       enctype="multipart/form-data" class="mx-5 mb-3 border-b">
                                     @csrf

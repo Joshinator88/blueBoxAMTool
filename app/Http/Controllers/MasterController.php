@@ -15,21 +15,19 @@ class MasterController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->role->role !== "admin") {
-            return redirect()->route('dashboard');
+        if (Auth::user()->role->role == "sales") {
+            return view('sales.home');
+        } else if (Auth::user()->role->role == "admin") {
+            $partners = Partner::all();
+            $users = User::where('role_id', 2)->get();
+            $parents = Master::with('category')->get(); // Eager load the category relationship
+            $categories = Category::all(); // Get all categories for the form
+            return view('parents.index', compact('parents', 'categories', 'users', 'partners'));
         }
-        $partners = Partner::all();
-        $users = User::where('role_id', 2)->get();
-        $parents = Master::with('category')->get(); // Eager load the category relationship
-        $categories = Category::all(); // Get all categories for the form
-        return view('parents.index', compact('parents', 'categories', 'users', 'partners'));
+        return redirect()->route('dashboard');
     }
 
-    // public function indexOfOneMaster()
-    // {
-    //     return view('sharedAdminSales.singleparent');
-    // }
-    
+   
     public function search(Request $request)
     {
         if (Auth::user()->role->role !== "admin") {
@@ -72,7 +70,6 @@ class MasterController extends Controller
     // this method gets called when the user actiualy presses de edit putton on the update page
     public function edit(Request $request)
     {
-        dd($request);
         if (Auth::user()->role->role !== "admin") {
             return redirect()->route('dashboard');
         }

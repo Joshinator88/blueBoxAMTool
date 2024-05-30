@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\http\Controllers\RegisterController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\SingleMasterController;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -39,14 +40,14 @@ Route::post('usermanagement', [RegisterController::class, 'create']);
 Route::post('editUser', [RegisterController::class, 'update'])->name('usermanagement');
 Route::get('search-users', [RegisterController::class, 'search']);
 
-Route::get('/parents', [MasterController::class, 'index'])->name('parents.index');
-Route::post('/parents', [MasterController::class, 'store'])->name('parents.store');
+Route::get('/parents', [MasterController::class, 'index'])->name('parents');
+Route::post('/parents', [MasterController::class, 'store'])->name('parents');
 Route::get('/parents/search', [MasterController::class, 'search'])->name('parents');
-Route::post('/parents/edit', [MasterController::class, 'edit'])->name('parents.edit');
-Route::post('/parents/update', [MasterController::class, 'update'])->name('parents.update');
+Route::post('/parents/edit', [MasterController::class, 'edit'])->name('parents');
+Route::post('/parents/update', [MasterController::class, 'update'])->name('parents');
 Route::resource('parents', MasterController::class);
 
-// Route::get('{parent}', [MasterController::class, 'indexOfOneMaster'])->name('parents');
+Route::get('/parent/{id}', [SingleMasterController::class, 'index'])->name('parents');
 
 Route::resource('categories', CategoryController::class);
 Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
