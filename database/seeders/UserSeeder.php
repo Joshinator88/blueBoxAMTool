@@ -71,10 +71,10 @@ class UserSeeder extends Seeder
 
         
         Master::All()->each(function ($master) {
-            $sales1 = 0;
-            $sales2 = 0;
+            $sales1 = 2;
+            $sales2 = mt_rand(5, 14);
             while ($sales1 == $sales2) {
-                $sales1 = mt_rand(5, 14);
+                // $sales1 = mt_rand(5, 14);
                 $sales2 = mt_rand(5, 14);
             }
             $master->users()->save(User::where("role_id", 2)->find($sales1));

@@ -24,7 +24,8 @@ class DatabaseSeeder extends Seeder
             MasterSeeder::class,
             PartnerSeeder::class,
             UserSeeder::class,
-            MasterPartnerSeeder::class
+            MasterPartnerSeeder::class,
+            StrategySeeder::class
         ]);
     }
 }

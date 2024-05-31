@@ -5,7 +5,9 @@ use App\http\Controllers\RegisterController;
 use App\Http\Controllers\MasterController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SingleMasterController;
+use App\Http\Controllers\StrategyController;
 use App\Models\Role;
+use App\Models\Strategy;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -46,6 +48,8 @@ Route::get('/parents/search', [MasterController::class, 'search'])->name('parent
 Route::post('/parents/edit', [MasterController::class, 'edit'])->name('parents');
 Route::post('/parents/update', [MasterController::class, 'update'])->name('parents');
 Route::resource('parents', MasterController::class);
+
+Route::get('/strategy/edit/{strategy}', [StrategyController::class, 'index'])->name('parents');
 
 Route::get('/parent/{id}', [SingleMasterController::class, 'index'])->name('parents');
 

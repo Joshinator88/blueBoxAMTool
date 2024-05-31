@@ -28,4 +28,8 @@ class Master extends Model
     {
         return $this->belongsToMany(Partner::class);
     }
+    public function strategies()
+    {
+        return $this->hasMany(Strategy::class);
+    }
 }
