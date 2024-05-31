@@ -10,7 +10,8 @@
         <!-- check if the user has any masters he is responsible for and if so they are displayed here  -->
         @if(Auth::user()->masters->count() > 0)
             @foreach (Auth::user()->masters as $master)
-                <div>
+            <a class="" href="/parent/{{$master->id}}">
+                <div class="hover:drop-shadow-md border-b border-blue-300 py-2">
                     <h2>{{ $master->name }}</h2>
                     @foreach($master->users as $user)
                         @if($user !== Auth::user())
@@ -18,6 +19,7 @@
                         @endif
                     @endforeach
                 </div>
+            </a>
             @endforeach
         @endif
 
