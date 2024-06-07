@@ -33,7 +33,9 @@
                 <label for="alignment">Alignment</label>
                 <input class="rounded-md border-blue-300" type="text" name="alignment" id="alignment" value="{{ $strategy->alignment }}">
             </div>
-            <input class="transition duration-300 hover:duration-300 hover:scale-105 bg-blue-800 text-white p-1 w-4/12 mx-auto my-1 rounded-md hover:cursor-pointer hover:bg-blue-700 hover:text-slate-50" type="submit" name="edit" id="edit" value="Edit">
+            <div class="w-4/12 mx-auto">
+                <input class="transition duration-300 hover:duration-300 hover:scale-105 bg-blue-800 text-white p-1 w-full mx-auto my-1 rounded-md hover:cursor-pointer hover:bg-blue-700 hover:text-slate-50" type="submit" name="edit" id="edit" value="Edit">
+            </div>
         </form>
     </div>
     

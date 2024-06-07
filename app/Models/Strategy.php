@@ -13,4 +13,8 @@ class Strategy extends Model
     {
         return $this->belongsTo(Master::class);
     }
+    public function actions()
+    {
+        return $this->belongsToMany(Action::class);
+    }
 }
